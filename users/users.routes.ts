@@ -6,6 +6,12 @@ class UserRouter extends Router {
     application.get("/users", (req, resp, next) => {
       resp.json({ message: "users routes" });
     });
+
+    application.get("/users/:id", (req, resp, next) => {
+      req.params.id;
+      resp.send(404);
+    });
+
   }
 }
 
