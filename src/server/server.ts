@@ -1,9 +1,17 @@
 import * as restify from "restify";
 import { environment } from "../common/environment";
 import { Router } from "../common/router";
+import * as mongoose from "mongoose";
 
 export class Server {
   aplication: restify.Server;
+
+  initializeDb() {
+    return mongoose.connect(environment.db.url, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    });
+  }
 
   initRoutes(routers: Router[]) {
     return new Promise((resolve, reject) => {
@@ -12,13 +20,14 @@ export class Server {
           name: "meet-api",
           version: "1.0.0",
         });
+
         this.aplication.use(restify.plugins.queryParser());
+        this.aplication.use(restify.plugins.bodyParser());
 
         //routes
-        for (let router of routers){
-          router.applyRoutes(this.aplication)
+        for (let router of routers) {
+          router.applyRoutes(this.aplication);
         }
-
 
         this.aplication.listen(environment.server.port, () => {
           resolve(this.aplication);
@@ -30,6 +39,8 @@ export class Server {
   }
 
   bootstrap(routers: Router[] = []): Promise<Server> {
-    return this.initRoutes(routers).then(() => this);
+    return this.initializeDb().then(() =>
+      this.initRoutes(routers).then(() => this)
+    );
   }
 }

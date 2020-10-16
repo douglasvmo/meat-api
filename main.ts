@@ -1,9 +1,7 @@
-import { Server } from "./server/server";
-import { userRouter } from "./users/users.routes";
-
+import { Server } from "./src/server/server";
+import { userRouter } from "./src/users/users.routes";
 
 const server = new Server();
-
 
 server
   .bootstrap([userRouter])
@@ -11,5 +9,6 @@ server
     console.log("Server iss listening on: ", server.aplication.address());
   })
   .catch((error) => {
+    console.log(error);
     console.log("Server failed to start");
   });
