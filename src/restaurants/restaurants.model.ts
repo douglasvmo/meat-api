@@ -1,7 +1,7 @@
 import * as mongosse from 'mongoose';
 
 export interface MenuItem extends mongosse.Document {
-    nome: string,
+    name: string,
     price: number
 }
 
@@ -22,7 +22,7 @@ const menuSchema = new mongosse.Schema({
 })
 
 const restSchema = new mongosse.Schema({
-    nome: {
+    name: {
         type: String,
         required: true
     },
@@ -33,3 +33,5 @@ const restSchema = new mongosse.Schema({
         default:[]
     }
 })
+
+export const Restaurant = mongosse.model<Restaurant>('Restaurant', restSchema)

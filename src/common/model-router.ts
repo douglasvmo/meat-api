@@ -8,7 +8,6 @@ export abstract class ModelRouter<T extends mongoose.Document> extends Router {
     }
 
     validateId = (req, resp, next) => {
-        console.log('validate')
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
             next(new NotFoundError('document not found'))
         } else {
